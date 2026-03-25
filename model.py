@@ -28,6 +28,8 @@ class Question:
             raise Exception('Title cannot be longer than 200 characters')
         if points < 1 or points > 100:
             raise Exception('Points must be between 1 and 100')
+        if max_selections < 1 or max_selections > 100:
+            raise Exception('Max selections must be between 1 and 100')
 
         self.title = title
         self.points = points
@@ -84,10 +86,11 @@ class Question:
     """
 
     def set_correct_choices(self, correct_choice_ids: list[int]):
+        for choice in self.choices:
+            choice.is_correct = False
         for choice_id in correct_choice_ids:
             choice = self._find_choice_by_id(choice_id)
-            if choice:
-                choice.is_correct = True
+            choice.is_correct = True
 
     """
     Corrects the selected choices.
