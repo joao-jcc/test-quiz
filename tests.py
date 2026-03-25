@@ -112,3 +112,29 @@ def test_create_question_with_valid_points_and_max_selections():
     question = Question(title='q1', points=100, max_selections=100)
     assert question.points == 100
     assert question.max_selections == 100
+
+
+# Usando fixture
+@pytest.fixture
+def question():
+    return Question(title='q1')
+
+def test_create_question_with_fixture(question):
+    assert question.title == 'q1'
+    assert question.points == 1
+    assert question.max_selections == 1
+    assert question.id != None
+
+def test_create_question_with_fixture_and_choices(question):
+    question.add_choice('a', False)
+    question.add_choice('b', False)
+    question.add_choice('c', False)
+    assert len(question.choices) == 3
+    assert question.choices[0].text == 'a'
+    assert question.choices[1].text == 'b'
+    assert question.choices[2].text == 'c'
+    assert question.choices[0].is_correct == False
+    assert question.choices[1].is_correct == False
+    assert question.choices[2].is_correct == False
+
+# 2 novos testes
